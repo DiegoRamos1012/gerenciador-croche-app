@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.croche_api"
+        applicationId = "com.diego_ramos.croche_api"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
