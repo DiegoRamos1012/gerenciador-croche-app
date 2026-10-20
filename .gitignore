@@ -1,0 +1,89 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+/build/
+**/build/
+
+# Generated 3rd party native libraries
+*.so
+*.dll
+*.dylib
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IntelliJ IDEA / Android Studio
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/caches/
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/perforce-local.xml
+.idea/migration.xml
+.idea/modules.xml
+.idea/renderer.xml
+.idea/databaseSettings.xml
+.idea/dataSources/
+.idea/dataSources_local.xml
+.idea/sql-dialects.xml
+.idea/i18n.xml
+.idea/dynamic.xml
+.idea/watcherTasks.xml
+.idea/filetypes.xml
+.idea/deployment.xml
+.idea/shape-snippets/
+.idea/
+
+# Local configuration file (SDK path, keystore passwords, etc.)
+local.properties
+
+# Gradle
+.gradle/
+.gradletasknamecache
+
+# Local Native Build files
+.externalNativeBuild/
+.cxx/
+
+# Captures (UI/UX Designer, Profiler)
+/captures/
+**/captures/
+
+# Kotlin cache and data
+.kotlin/
+.kotlinc/
+
+# Baseline Profiles
+/baseline-prof.txt
+**/baseline-prof.txt
+
+# Screenshot Testing outputs (Roborazzi, Paparazzi, Shot)
+**/screenshot-test-results/
+**/out-roborazzi/
+**/paparazzi/
+
+# Logs and temporary files
+*.log
+*.hprof
+.tmp
