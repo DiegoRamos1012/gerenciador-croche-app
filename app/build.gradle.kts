@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.croche_api"
+    namespace = "com.diego_ramos.croche_api"
     compileSdk {
         version = release(37)
     }
