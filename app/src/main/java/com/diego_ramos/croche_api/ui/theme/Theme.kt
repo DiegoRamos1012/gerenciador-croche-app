@@ -1,6 +1,5 @@
-package com.example.croche_api.ui.theme
+package com.diego_ramos.croche_api.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

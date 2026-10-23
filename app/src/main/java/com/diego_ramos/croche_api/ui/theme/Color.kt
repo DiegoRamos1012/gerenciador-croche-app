@@ -1,4 +1,4 @@
-package com.example.croche_api.ui.theme
+package com.diego_ramos.croche_api.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
