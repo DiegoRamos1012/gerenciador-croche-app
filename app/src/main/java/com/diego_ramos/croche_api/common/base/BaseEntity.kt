@@ -17,4 +17,9 @@ abstract class BaseEntity(
     protected fun markAsUpdated() {
         updatedAt = Instant.now()
     }
+
+    internal fun restoreTimestamps(createdAt: Instant, updatedAt: Instant) {
+        this.createdAt = createdAt
+        this.updatedAt = updatedAt
+    }
 }
