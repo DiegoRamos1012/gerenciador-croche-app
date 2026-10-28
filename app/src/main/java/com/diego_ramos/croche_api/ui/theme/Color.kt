@@ -14,4 +14,5 @@ val MediumTextVariant = Color(0xFF6D5245)     // Texto secundário (marrom acinz
 
 val SoftBeigeContainer = Color(0xFFF3E8DF)    // Container suave para botões/chips
 val OnCaramelWhite = Color(0xFFFFFFFF)        // Texto em botões primários caramelo
-val SubtleBorderColor = Color(0xFFE2D4C8)     // Bordas sutis dos cards
+val SubtleBorderColor = Color(0xFFC4A895)     // Bordas e divisores bem visíveis (marrom terracota)
+val VisibleDividerColor = Color(0xFFD2B9A6)    // Divisores horizontais de alto contraste

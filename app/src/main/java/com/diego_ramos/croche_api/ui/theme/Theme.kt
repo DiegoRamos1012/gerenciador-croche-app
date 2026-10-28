@@ -31,7 +31,7 @@ private val ArtisanLightColorScheme = lightColorScheme(
     onSurfaceVariant = MediumTextVariant,
 
     outline = SubtleBorderColor,
-    outlineVariant = Color(0xFFEFE6DE)
+    outlineVariant = VisibleDividerColor
 )
 
 private val ArtisanDarkColorScheme = darkColorScheme(
@@ -49,7 +49,9 @@ private val ArtisanDarkColorScheme = darkColorScheme(
     surface = Color(0xFF27201C),
     onSurface = Color(0xFFF3EAE3),
     surfaceVariant = Color(0xFF382E28),
-    onSurfaceVariant = Color(0xFFD3C3B8)
+    onSurfaceVariant = Color(0xFFD3C3B8),
+    outline = Color(0xFF8C7161),
+    outlineVariant = Color(0xFF6E5648)
 )
 
 @Composable
