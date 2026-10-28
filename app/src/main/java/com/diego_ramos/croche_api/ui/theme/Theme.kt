@@ -1,53 +1,64 @@
 package com.diego_ramos.croche_api.ui.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val ArtisanLightColorScheme = lightColorScheme(
+    primary = CaramelPrimary,
+    onPrimary = OnCaramelWhite,
+    primaryContainer = SoftBeigeContainer,
+    onPrimaryContainer = DarkCoffeePrimary,
+
+    secondary = DarkCoffeePrimary,
+    onSecondary = OnCaramelWhite,
+    secondaryContainer = RoseBeigeSecondary,
+    onSecondaryContainer = DarkText,
+
+    tertiary = SoftPinkTertiary,
+    onTertiary = DarkText,
+    tertiaryContainer = Color(0xFFFBF0EF),
+    onTertiaryContainer = DarkText,
+
+    background = CreamBackground,
+    onBackground = DarkText,
+
+    surface = CardSurfaceWhite,
+    onSurface = DarkText,
+    surfaceVariant = SoftBeigeContainer,
+    onSurfaceVariant = MediumTextVariant,
+
+    outline = SubtleBorderColor,
+    outlineVariant = Color(0xFFEFE6DE)
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val ArtisanDarkColorScheme = darkColorScheme(
+    primary = CaramelPrimary,
+    onPrimary = OnCaramelWhite,
+    primaryContainer = DarkCoffeePrimary,
+    onPrimaryContainer = RoseBeigeSecondary,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = RoseBeigeSecondary,
+    onSecondary = DarkText,
+
+    background = Color(0xFF1E1815),
+    onBackground = Color(0xFFF3EAE3),
+
+    surface = Color(0xFF27201C),
+    onSurface = Color(0xFFF3EAE3),
+    surfaceVariant = Color(0xFF382E28),
+    onSurfaceVariant = Color(0xFFD3C3B8)
 )
 
 @Composable
 fun CrocheapiTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    darkTheme: Boolean = false,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) ArtisanDarkColorScheme else ArtisanLightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
