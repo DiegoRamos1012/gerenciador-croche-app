@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.LocalShipping
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -28,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -166,16 +167,35 @@ fun OrderCard(
                         )
                     }
 
-                    Row {
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
                         if (!isCancelled) {
-                            IconButton(onClick = onEditOrder) {
-                                Icon(Icons.Default.Edit, contentDescription = "Editar Pedido")
+                            IconButton(
+                                onClick = onEditOrder,
+                                modifier = Modifier.size(36.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Edit,
+                                    contentDescription = "Editar Pedido",
+                                    modifier = Modifier.size(20.dp)
+                                )
                             }
                         }
-                        Icon(
-                            imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                            contentDescription = "Expandir"
-                        )
+
+                        IconButton(
+                            onClick = { expanded = !expanded },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                                contentDescription = "Expandir",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -196,28 +216,46 @@ fun OrderCard(
 
                     if (!isCancelled) {
                         Spacer(modifier = Modifier.height(12.dp))
+
+                        if (order.remainingBalance > BigDecimal.ZERO) {
+                            Button(
+                                onClick = onRegisterPayment,
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            ) {
+                                Icon(
+                                    Icons.Default.AddCard,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = "Registrar Pagamento (Falta ${CurrencyUtils.format(order.remainingBalance)})",
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            if (order.remainingBalance > BigDecimal.ZERO) {
-                                TextButton(onClick = onRegisterPayment) {
-                                    Icon(Icons.Default.AddCard, contentDescription = null, modifier = Modifier.size(16.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text("Novo Pagamento")
-                                }
-                            } else {
-                                Spacer(modifier = Modifier.width(1.dp))
+                            OutlinedButton(
+                                onClick = onToggleDelivery,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(if (order.isDelivered) "Marcar Pendente" else "Marcar Entregue")
                             }
 
-                            Row {
-                                TextButton(onClick = onToggleDelivery) {
-                                    Text(if (order.isDelivered) "Marcar Pendente" else "Marcar Entregue")
-                                }
-                                OutlinedButton(onClick = onCancelOrder) {
-                                    Text("Cancelar", color = MaterialTheme.colorScheme.error)
-                                }
+                            OutlinedButton(
+                                onClick = onCancelOrder,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text("Cancelar", color = MaterialTheme.colorScheme.error)
                             }
                         }
                     }

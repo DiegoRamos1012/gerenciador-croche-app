@@ -57,7 +57,7 @@ private val ArtisanDarkColorScheme = darkColorScheme(
 @Composable
 fun CrocheapiTheme(
     darkTheme: Boolean = false,
-    dynamicColor: Boolean = false,
+    @Suppress("UNUSED_PARAMETER") dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) ArtisanDarkColorScheme else ArtisanLightColorScheme
