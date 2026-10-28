@@ -5,7 +5,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-interface ProductRepository { // Contrato, sem persistência
+interface ProductRepository {
 
     suspend fun save(product: Product)
 
@@ -20,4 +20,8 @@ interface ProductRepository { // Contrato, sem persistência
     suspend fun findAllActive(): List<Product>
 
     suspend fun findAllInactive(): List<Product>
+
+    suspend fun deleteInactiveById(id: Uuid): Boolean
+
+    suspend fun deleteInactiveByIds(ids: List<Uuid>): Int
 }

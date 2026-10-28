@@ -30,6 +30,9 @@ data class ProductEntity(
     @ColumnInfo(name = "price")
     val price: String,
 
+    @ColumnInfo(name = "photo_path")
+    val photoPath: String,
+
     @ColumnInfo(name = "is_active")
     val isActive: Boolean,
 
@@ -49,6 +52,7 @@ fun Product.toEntity(): ProductEntity {
         color = color,
         size = size,
         price = price.toPlainString(),
+        photoPath = photoPath,
         isActive = isActive,
         createdAt = createdAt.toString(),
         updatedAt = updatedAt.toString()
@@ -64,6 +68,7 @@ fun ProductEntity.toDomain(): Product {
         color = color,
         size = size,
         price = BigDecimal(price),
+        photoPath = photoPath,
         isActive = isActive,
         createdAt = Instant.parse(createdAt),
         updatedAt = Instant.parse(updatedAt)

@@ -48,7 +48,8 @@ class ProductRepositoryImplTest {
             description = "Conjunto com 3 peças de crochê",
             color = "Rosa",
             size = "Padrão",
-            price = BigDecimal("120.50")
+            price = BigDecimal("120.50"),
+            photoPath = "product_photos/jogo_banheiro.jpg"
         )
 
         repository.save(product)
@@ -64,6 +65,7 @@ class ProductRepositoryImplTest {
         assertEquals("Rosa", retrieved.color)
         assertEquals("Padrão", retrieved.size)
         assertEquals(BigDecimal("120.50"), retrieved.price)
+        assertEquals("product_photos/jogo_banheiro.jpg", retrieved.photoPath)
         assertTrue(retrieved.isActive)
         assertEquals(product.createdAt, retrieved.createdAt)
         assertEquals(product.updatedAt, retrieved.updatedAt)
@@ -82,12 +84,12 @@ class ProductRepositoryImplTest {
             description = "Manta artesanal",
             color = "Amarelo",
             size = "Único",
-            price = BigDecimal("150.00")
+            price = BigDecimal("150.00"),
+            photoPath = "product_photos/manta.jpg"
         )
 
         repository.save(product)
 
-        // Verificação para produto ativo
         val existsActive = repository.existsByNameAndColorAndSize(
             name = "manta de bebê",
             color = "amarelo",
@@ -95,11 +97,9 @@ class ProductRepositoryImplTest {
         )
         assertTrue(existsActive)
 
-        // Desativa o produto e salva
         product.deactivate()
         repository.save(product)
 
-        // Verificação após desativação
         val existsInactive = repository.existsByNameAndColorAndSize(
             name = "manta de bebê",
             color = "amarelo",
@@ -115,7 +115,8 @@ class ProductRepositoryImplTest {
             description = null,
             color = "Vermelho",
             size = "Pequeno",
-            price = BigDecimal("15.00")
+            price = BigDecimal("15.00"),
+            photoPath = "product_photos/chaveiro1.jpg"
         )
 
         val inactiveProduct = Product.create(
@@ -123,7 +124,8 @@ class ProductRepositoryImplTest {
             description = null,
             color = "Bege",
             size = "Pequeno",
-            price = BigDecimal("18.00")
+            price = BigDecimal("18.00"),
+            photoPath = "product_photos/chaveiro2.jpg"
         )
         inactiveProduct.deactivate()
 

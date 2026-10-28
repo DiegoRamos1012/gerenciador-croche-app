@@ -5,8 +5,6 @@ import com.diego_ramos.croche_api.modules.product.error.ProductErrors
 import com.diego_ramos.croche_api.modules.product.repository.ProductRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -51,6 +49,18 @@ class FakeProductRepository : ProductRepository {
     override suspend fun findAllInactive(): List<Product> {
         return products.filter { !it.isActive }
     }
+
+    override suspend fun deleteInactiveById(id: Uuid): Boolean {
+        return products.removeIf { it.id == id && !it.isActive }
+    }
+
+    override suspend fun deleteInactiveByIds(ids: List<Uuid>): Int {
+        var count = 0
+        ids.forEach { id ->
+            if (products.removeIf { it.id == id && !it.isActive }) count++
+        }
+        return count
+    }
 }
 
 @OptIn(ExperimentalUuidApi::class)
@@ -72,7 +82,8 @@ class ProductServiceTest {
             description = "Lindo tapete artesanal",
             color = "Azul",
             size = "Médio",
-            price = BigDecimal("49.90")
+            price = BigDecimal("49.90"),
+            photoPath = "product_photos/tapete.jpg"
         )
 
         assertTrue(result.isSuccess)
@@ -81,6 +92,7 @@ class ProductServiceTest {
         assertEquals("Azul", product.color)
         assertEquals("Médio", product.size)
         assertEquals(BigDecimal("49.90"), product.price)
+        assertEquals("product_photos/tapete.jpg", product.photoPath)
         assertTrue(product.isActive)
 
         assertEquals(1, fakeRepository.products.size)
@@ -93,7 +105,23 @@ class ProductServiceTest {
             description = "Descrição",
             color = "Azul",
             size = "Médio",
-            price = BigDecimal("10.00")
+            price = BigDecimal("10.00"),
+            photoPath = "product_photos/test.jpg"
+        )
+
+        assertTrue(result.isFailure)
+        assertEquals("PRODUCT_INVALID_INPUT", result.error.code)
+    }
+
+    @Test
+    fun create_withBlankPhotoPath_shouldReturnFailure() = runTest {
+        val result = productService.create(
+            name = "Bolsa",
+            description = "Bolsa",
+            color = "Azul",
+            size = "Médio",
+            price = BigDecimal("10.00"),
+            photoPath = "   "
         )
 
         assertTrue(result.isFailure)
@@ -107,7 +135,8 @@ class ProductServiceTest {
             description = "Bolsa de praia",
             color = "Amarelo",
             size = "G",
-            price = BigDecimal("0.00")
+            price = BigDecimal("0.00"),
+            photoPath = "product_photos/test.jpg"
         )
 
         assertTrue(result.isFailure)
@@ -121,7 +150,8 @@ class ProductServiceTest {
             description = "Mesa posta",
             color = "Vermelho",
             size = "Único",
-            price = BigDecimal("25.00")
+            price = BigDecimal("25.00"),
+            photoPath = "product_photos/test1.jpg"
         )
 
         val resultDuplicate = productService.create(
@@ -129,7 +159,8 @@ class ProductServiceTest {
             description = "Outro sousplat",
             color = "Vermelho",
             size = "Único",
-            price = BigDecimal("30.00")
+            price = BigDecimal("30.00"),
+            photoPath = "product_photos/test2.jpg"
         )
 
         assertTrue(resultDuplicate.isFailure)
@@ -143,7 +174,8 @@ class ProductServiceTest {
             description = "Urso de pelúcia",
             color = "Marrom",
             size = "Pequeno",
-            price = BigDecimal("60.00")
+            price = BigDecimal("60.00"),
+            photoPath = "product_photos/test1.jpg"
         )
         val firstProduct = firstResult.value
         firstProduct.deactivate()
@@ -154,7 +186,8 @@ class ProductServiceTest {
             description = "Novo urso marrom",
             color = "Marrom",
             size = "Pequeno",
-            price = BigDecimal("65.00")
+            price = BigDecimal("65.00"),
+            photoPath = "product_photos/test2.jpg"
         )
 
         assertTrue(secondResult.isSuccess)
@@ -168,7 +201,8 @@ class ProductServiceTest {
             description = null,
             color = "Branco",
             size = "1,5m",
-            price = BigDecimal("80.00")
+            price = BigDecimal("80.00"),
+            photoPath = "product_photos/test.jpg"
         )
 
         val savedProduct = createResult.value
@@ -194,14 +228,16 @@ class ProductServiceTest {
             description = null,
             color = "Azul",
             size = "P",
-            price = BigDecimal("10.00")
+            price = BigDecimal("10.00"),
+            photoPath = "product_photos/test1.jpg"
         )
         val p2Result = productService.create(
             name = "Produto 2",
             description = null,
             color = "Verde",
             size = "M",
-            price = BigDecimal("20.00")
+            price = BigDecimal("20.00"),
+            photoPath = "product_photos/test2.jpg"
         )
 
         val p2 = p2Result.value

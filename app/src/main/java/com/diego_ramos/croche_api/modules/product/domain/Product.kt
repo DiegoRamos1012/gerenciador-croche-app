@@ -11,13 +11,48 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 class Product private constructor(
     override val id: Uuid = Uuid.random(),
-    val name: String,
-    val description: String?,
-    val color: String,
-    val size: String,
-    val price: BigDecimal,
+    var name: String,
+    var description: String?,
+    var color: String,
+    var size: String,
+    var price: BigDecimal,
+    var photoPath: String,
     var isActive: Boolean = true
 ) : BaseEntity(id) {
+
+    fun updateDetails(
+        name: String,
+        description: String?,
+        color: String,
+        size: String,
+        price: BigDecimal,
+        photoPath: String
+    ) {
+        if (name.isBlank()) throw DomainException("O nome do produto é obrigatório.")
+        if (description != null && description.length > 300) {
+            throw DomainException("A descrição não pode passar de 300 caracteres.")
+        }
+        if (color.isBlank()) throw DomainException("A cor do produto é obrigatória.")
+        if (size.isBlank()) throw DomainException("O tamanho do produto é obrigatório.")
+        if (price <= BigDecimal.ZERO) throw DomainException("O preço deve ser maior que zero.")
+        if (photoPath.isBlank()) throw DomainException("A foto do produto é obrigatória.")
+
+        this.name = TextNormalizer.normalizeName(name)
+        this.description = description?.trim()
+        this.color = color.trim()
+        this.size = size.trim()
+        this.price = price
+        this.photoPath = photoPath.trim()
+        markAsUpdated()
+    }
+
+    fun updatePhoto(newPhotoPath: String) {
+        if (newPhotoPath.isBlank()) {
+            throw DomainException("A foto do produto é obrigatória.")
+        }
+        photoPath = newPhotoPath
+        markAsUpdated()
+    }
 
     fun deactivate() {
         if (!isActive) {
@@ -43,7 +78,8 @@ class Product private constructor(
             description: String?,
             color: String,
             size: String,
-            price: BigDecimal
+            price: BigDecimal,
+            photoPath: String
         ): Product {
 
             if (name.isBlank()) throw DomainException("O nome do produto é obrigatório.")
@@ -62,12 +98,15 @@ class Product private constructor(
 
             if (price <= BigDecimal.ZERO) throw DomainException("O preço deve ser maior que zero.")
 
+            if (photoPath.isBlank()) throw DomainException("A foto do produto é obrigatória.")
+
             return Product(
                 name = TextNormalizer.normalizeName(name),
                 description = description?.trim(),
                 color = color.trim(),
                 size = size.trim(),
-                price = price
+                price = price,
+                photoPath = photoPath.trim()
             )
         }
 
@@ -78,6 +117,7 @@ class Product private constructor(
             color: String,
             size: String,
             price: BigDecimal,
+            photoPath: String,
             isActive: Boolean,
             createdAt: Instant,
             updatedAt: Instant
@@ -89,6 +129,7 @@ class Product private constructor(
                 color = color,
                 size = size,
                 price = price,
+                photoPath = photoPath,
                 isActive = isActive
             )
             product.restoreTimestamps(createdAt, updatedAt)

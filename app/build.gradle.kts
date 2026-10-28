@@ -52,6 +52,11 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    // Image loading & processing
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.exifinterface)
+    implementation(libs.androidx.compose.material.icons.extended)
+
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(platform(libs.androidx.compose.bom))

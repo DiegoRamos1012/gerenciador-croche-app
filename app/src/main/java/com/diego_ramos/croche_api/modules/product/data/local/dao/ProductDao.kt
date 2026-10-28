@@ -33,4 +33,10 @@ interface ProductDao {
 
     @Query("SELECT * FROM products WHERE is_active = 0 ORDER BY name ASC")
     suspend fun findAllInactive(): List<ProductEntity>
+
+    @Query("DELETE FROM products WHERE id = :id AND is_active = 0")
+    suspend fun deleteInactiveById(id: String): Int
+
+    @Query("DELETE FROM products WHERE id IN (:ids) AND is_active = 0")
+    suspend fun deleteInactiveByIds(ids: List<String>): Int
 }
